@@ -1,0 +1,186 @@
+
+.center-page {
+  min-height: 100vh;
+  background-image: url("/bg.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: 0.3s ease;
+}
+
+.center-overlay {
+  min-height: 100vh;
+  background: rgba(200, 205, 190, 0.45); 
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+}
+
+
+.topbar {
+  height: 70px;
+  background: rgba(227, 235, 227, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.sidebar {
+  width: 0;
+  overflow: hidden;
+  background: rgba(227, 235, 227, 0.9);
+  backdrop-filter: blur(8px);
+  transition: 0.3s;
+  border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.sidebar.open {
+  width: 240px;
+}
+
+.sidebar-item {
+  padding: 12px 20px;
+  color: #3b3f2e;
+  cursor: pointer;
+}
+
+.sidebar-item.active {
+  background: #76a37b;
+  color: white;
+  margin: 5px 10px;
+  border-radius: 8px;
+}
+
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+.profile-logo {
+  width: 160px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 30px;
+  color: #2c3123;
+  margin-bottom: 25px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border: 2px solid #000; 
+  border-radius: 12px;
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.15); 
+}
+
+.form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.card-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #2c3123;
+}
+
+.styled-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  background: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.styled-input:focus {
+  border-color: #76a37b;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.save-btn {
+  flex: 1;
+  padding: 14px;
+  background: #2c3123;
+  color: white;
+  border: 2px solid #000;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background: #3e4a3e;
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background: #5e6b5e !important;
+}
+
+
+.center-page.dark .center-overlay {
+  background: rgba(10, 15, 10, 0.9);
+}
+
+.center-page.dark .topbar, 
+.center-page.dark .sidebar {
+  background: #111;
+  color: white;
+}
+
+.center-page.dark .title, 
+.center-page.dark .card-label {
+  color: white;
+}
+
+.center-page.dark .styled-input {
+  background: #262626;
+  color: white;
+  border-color: #555;
+}
+
+.center-page.dark .form-box {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: #555;
+}

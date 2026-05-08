@@ -1,0 +1,107 @@
+
+.refund-page {
+  min-height: 100vh;
+  background-image: url("/bg.png");
+  background-size: cover;
+  background-position: center;
+  transition: 0.3s;
+}
+
+.refund-overlay {
+  min-height: 100vh;
+  background: rgba(200, 205, 190, 0.45);
+  display: flex;
+  flex-direction: column;
+}
+
+
+.topbar {
+  height: 70px;
+  background: rgba(227, 235, 227, 0.9);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.refund-layout { display: flex; flex: 1; }
+
+.sidebar {
+  width: 0;
+  overflow: hidden;
+  background: rgba(227, 235, 227, 0.9);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar.open { width: 240px; }
+.sidebar-item { padding: 15px 20px; cursor: pointer; color: #3b3f2e; }
+.sidebar-item.active { background: #76a37b; color: white; margin: 5px 10px; border-radius: 8px; }
+
+
+.refund-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+.refund-logo { width: 150px; margin-bottom: 10px; }
+.title { color: #000; font-weight: bold; margin-bottom: 25px; font-size: 28px; }
+
+.requests-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.refund-card {
+  background: white;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.patient-name { font-weight: bold; font-size: 18px; color: #2c3123; }
+.service-name { font-size: 14px; margin: 5px 0; color: #555; }
+.price { color: #76a37b; font-weight: bold; }
+.refund-reason { font-size: 13px; color: #777; font-style: italic; }
+
+.approval-actions { display: flex; gap: 10px; }
+
+.approve-btn, .reject-btn {
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.approve-btn { background: #2c3123; color: white; }
+.reject-btn { background: #c0392b; color: white; }
+
+.approve-btn:hover { background: #3d4431; }
+.reject-btn:hover { background: #e74c3c; }
+
+.refund-page.dark .refund-overlay { background: rgba(10, 15, 10, 0.9); }
+.refund-page.dark .topbar, .refund-page.dark .sidebar { background: #111; color: white; }
+.refund-page.dark .title, .refund-page.dark .patient-name { color: white; }
+.refund-page.dark .refund-card { background: #1e1e1e; border-color: #444; }
+.refund-page.dark .service-name, .refund-page.dark .refund-reason { color: #bbb; }
+.refund-page.dark .nav-item { color: #ccc; }
+.refund-page.dark .sidebar-item { color: #eee; }

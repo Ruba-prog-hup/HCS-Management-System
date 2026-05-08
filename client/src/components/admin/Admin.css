@@ -1,0 +1,271 @@
+.admin-page {
+  min-height: 100vh;
+  background-image: url("/bg.png"); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+}
+
+
+.overlay {
+  min-height: 100vh;
+  background: rgba(200, 205, 190, 0.45); 
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s ease;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+}
+
+
+.topbar {
+  height: 70px;
+  background: rgba(227, 235, 227, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-item {
+  margin: 0 15px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #3b3f2e;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #3b3f2e;
+  display: flex;
+  align-items: center;
+}
+
+
+.sidebar {
+  width: 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.sidebar.open {
+  width: 240px;
+}
+
+.sidebar-content {
+  padding: 20px;
+}
+
+.sidebar-item {
+  padding: 12px 15px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #3b3f2e;
+}
+
+.sidebar-item.active {
+  background: #76a37b;
+  color: white;
+}
+
+.sidebar-logout {
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #c0392b;
+}
+
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  padding: 40px;
+}
+
+.title {
+  font-size: 32px;
+  color: #2c3123;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+
+.card {
+  background: white;
+  padding: 30px;
+  width: 180px;
+  height: 200px;
+  border-radius: 12px;
+  border: 2px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+  font-size: 50px;
+  color: #76a37b;
+  margin-bottom: 10px;
+}
+
+.card p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.card h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: #000;
+}
+
+
+.admin-page.dark .overlay {
+  background: rgba(10, 15, 10, 0.88); 
+}
+
+.admin-page.dark .topbar {
+  background: #111111;
+  color: #ffffff;
+}
+
+.admin-page.dark .nav-item, 
+.admin-page.dark .menu-text,
+.admin-page.dark .icon-btn {
+  color: #ffffff;
+}
+
+.admin-page.dark .sidebar {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.admin-page.dark .sidebar-item {
+  color: #ccc;
+}
+
+.admin-page.dark .title {
+  color: #ffffff;
+}
+
+.admin-page.dark .card {
+  background: #262626;
+  border-color: #555;
+  color: #ffffff;
+}
+
+.admin-page.dark .card h3,
+.admin-page.dark .card p {
+  color: #ffffff;
+}
+
+.admin-page.dark .card-icon {
+  color: #a8d5a2;
+}
+
+
+
+.management-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  border: 2px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.logo {
+  width: 120px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+}
+
+.input {
+  width: 320px;
+  padding: 12px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input:focus {
+  border-color: #76a37b;
+}
+
+.remove-btn {
+  background: #c0392b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.remove-btn:hover {
+  background: #a93226;
+  transform: translateY(-2px);
+}
+
+
+.admin-page.dark .management-card {
+  background: #262626;
+  border-color: #555;
+}
+
+.admin-page.dark .input {
+  background: #333;
+  color: white;
+  border-color: #555;
+}
+
+.admin-page.dark .logo {
+  filter: brightness(1.2);
+}
