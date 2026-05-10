@@ -113,9 +113,17 @@ export default function UpdateandCancelAppointment() {
                                         </div>
                                     </div>
  
-                                    <div className="form-actions card-btns">
-                                        <button className="save-btn edit-btn"><FaEdit /> Edit</button>
-                                        <button className="save-btn cancel-btn"><FaTimesCircle /> Cancel</button>
+                                   <div className="form-actions card-btns">
+                                        <button
+                                            className="save-btn edit-btn"
+                                            onClick={() => navigate("/center/update-appointment", { state: { appointment: appt } })}
+                                        >
+                                            <FaEdit /> Edit
+                                        </button>
+
+                                        <button className="save-btn cancel-btn">
+                                            <FaTimesCircle /> Cancel
+                                        </button>
                                     </div>
                                 </div>
                             ))}
