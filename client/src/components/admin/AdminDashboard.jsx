@@ -62,7 +62,7 @@ export default function AdminDashboard() {
               <div className="sidebar-item" onClick={() => navigate("/admin/management")}>Admin Management</div>
               <div className="sidebar-item active">Dashboard</div>
             </div>
-            <div className="sidebar-logout" onClick={() => navigate("/login")}>
+            <div className="sidebar-logout" onClick={() => navigate("/")}>
               <IoLogOutOutline style={{marginRight: '8px'}} /> Logout
             </div>
           </div>
