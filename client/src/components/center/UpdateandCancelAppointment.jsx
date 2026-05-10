@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { FaBars, FaMoon, FaSun, FaUserCircle, FaEdit, FaTimesCircle, FaClock, FaMapMarkerAlt } from "react-icons/fa";
-import { MdLanguage, MdAttachMoney, MdOutlineMedicalServices, MdEmail } from "react-icons/md";
+import { FaBars, FaMoon, FaSun, FaEdit, FaTimesCircle, FaClock, FaMapMarkerAlt } from "react-icons/fa";
+import { MdLanguage, MdAttachMoney, MdOutlineMedicalServices, MdEmail, MdAccountCircle } from "react-icons/md";
+import { IoLogOutOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/logo.png";
 import "./UpdateandCancelAppointment.css";
-
+ 
 export default function UpdateandCancelAppointment() {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
-
+ 
     const appointments = [
         {
             id: 1,
@@ -20,104 +23,99 @@ export default function UpdateandCancelAppointment() {
         },
         {
             id: 2,
-            centerName: "Al Reem",
-            email: "AlReem@gmail.om",
+            customerName: "Sara Said",
+            email: "Sara@gmail.om",
             price: "25 OMR",
             duration: "60 Minutes",
             location: "Bawshar",
             service: "Physical Therapy"
         }
     ];
-
+ 
     return (
-        <div className={`appointment-page ${darkMode ? "dark" : ""}`}>
-            <div className="appointment-overlay">
-
-
+        <div className={`center-page ${darkMode ? "dark" : ""}`}>
+            <div className="center-overlay">
+               
+               
                 <div className="topbar">
                     <div className="topbar-left">
-                        <button className="icon-btn" onClick={() => setOpen(!open)}><FaBars size={20} /></button>
-                        <FaUserCircle size={28} className="nav-item" />
-                        <span className="nav-item" style={{ fontWeight: 'bold' }}>Admin Panel</span>
+                        <button className="icon-btn" onClick={() => setOpen(!open)}><FaBars /></button>
+                        <button className="icon-btn profile-nav-btn" onClick={() => navigate("/center/center-profile")}>
+                            <MdAccountCircle size={32} />
+                        </button>
+                        <span className="menu-text">Center Panel</span>
                     </div>
+                   
                     <div className="topbar-center">
-                        <div className="nav-item">Home</div>
-                        <div className="nav-item">Dashboard</div>
+                        <div className="nav-item" onClick={() => navigate("/center/dashboard")}>Dashboard</div>
                     </div>
+ 
                     <div className="topbar-right">
                         <button className="icon-btn" onClick={() => setDarkMode(!darkMode)}>
-                            {darkMode ? <FaSun color="#f1c40f" size={20} /> : <FaMoon size={20} />}
+                            {darkMode ? <FaSun color="#f1c40f" /> : <FaMoon />}
                         </button>
-                        <button className="icon-btn"><MdLanguage size={22} /></button>
+                        <button className="icon-btn"><MdLanguage /></button>
                     </div>
                 </div>
-
+ 
                 <div className="layout">
-
+                   
                     <div className={`sidebar ${open ? "open" : ""}`}>
                         <div className="sidebar-content">
-                            <div className="sidebar-item ">Profile</div>
-                            <div className="sidebar-item">Dashboard</div>
-                            <div className="sidebar-item ">Management</div>
-                            <div className="sidebar-item">Refund Requests</div>
-                            <div className="sidebar-item ">Add Treatment</div>
-                            <div className="sidebar-item">Edit Treatment</div>
-                            <div className="sidebar-item active">Management Appointment</div>
-
+                            <div className="sidebar-item" onClick={() => navigate("/center/center-profile")}>Profile</div>
+                            <div className="sidebar-item" onClick={() => navigate("/center/dashboard")}>Dashboard</div>
+                            <div className="sidebar-item" onClick={() => navigate("/center/management")}>Management</div>
+                            <div className="sidebar-item" onClick={() => navigate("/center/appointment-refundApproval")}>Refund Requests</div>
+                            <div className="sidebar-item" onClick={() => navigate("/center/add-treatment")}>Add Treatment</div>
+                            <div className="sidebar-item" onClick={() => navigate("/center/edit-treatment")}>Edit Treatment</div>
+                            <div className="sidebar-item active">Management Appointments</div>
+                        </div>
+                       
+                        <div className="sidebar-logout" onClick={() => navigate("/")}>
+                            <IoLogOutOutline size={20} /> Logout
                         </div>
                     </div>
-
-
+ 
+                   
                     <div className="content-wrapper">
-                        <img src={logoImg} alt="Logo" className="profile-logo" />
+                        <img src={logoImg} alt="HCS Logo" className="profile-logo" style={{ width: '180px', marginBottom: '10px' }} />
                         <h2 className="title"><MdOutlineMedicalServices /> Update and Cancel Appointment</h2>
-
-                        <div className="appointments-list">
+ 
+                        <div className="appointments-list-container">
                             {appointments.map((appt) => (
-                                <div key={appt.id} className="split-card">
-                                    <div className="card-left">
-                                        <div className="profile-section">
-                                            <FaUserCircle size={55} className="user-avatar" />
-                                            <div className="user-main-info">
-                                                <h3>{appt.centerName}</h3>
-                                                <p className="user-email"><MdEmail /> {appt.email}</p>
-                                            </div>
-                                        </div>
-
-                                        <div className="details-list">
-
-                                            <div className="detail-item">
-                                                <span className="label"><MdOutlineMedicalServices /> Service:</span>
-                                                <span className="value highlight-service">{appt.service}</span>
-                                            </div>
-                                            <div className="detail-item">
-                                                <span className="label"><MdAttachMoney /> Price:</span>
-                                                <span className="value highlight">{appt.price}</span>
-                                            </div>
-                                            <div className="detail-item">
-                                                <span className="label"><FaClock /> Duration:</span>
-                                                <span className="value">{appt.duration}</span>
-                                            </div>
-                                            <div className="detail-item">
-                                                <span className="label"><FaMapMarkerAlt /> Location:</span>
-                                                <span className="value">{appt.location}</span>
+                                <div key={appt.id} className="form-box appointment-card">
+                                    <div className="card-header-info">
+                                        <div className="user-profile-info">
+                                            <MdAccountCircle size={40} color="#76a37b" />
+                                            <div>
+                                                <h3>{appt.customerName}</h3>
+                                                <span className="email-span"><MdEmail /> {appt.email}</span>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="card-right">
-
-                                        <div className="action-stack">
-                                            <button className="action-btn edit-btn">
-                                                <FaEdit size={22} />
-                                                <span>Edit Appointment</span>
-                                            </button>
-
-                                            <button className="action-btn cancel-btn">
-                                                <FaTimesCircle size={22} />
-                                                <span>Cancel Appointment</span>
-                                            </button>
+ 
+                                    <div className="appointment-details-grid">
+                                        <div className="detail-item">
+                                            <label><MdOutlineMedicalServices /> Service</label>
+                                            <p>{appt.service}</p>
                                         </div>
+                                        <div className="detail-item">
+                                            <label><MdAttachMoney /> Price</label>
+                                            <p>{appt.price}</p>
+                                        </div>
+                                        <div className="detail-item">
+                                            <label><FaClock /> Duration</label>
+                                            <p>{appt.duration}</p>
+                                        </div>
+                                        <div className="detail-item">
+                                            <label><FaMapMarkerAlt /> Location</label>
+                                            <p>{appt.location}</p>
+                                        </div>
+                                    </div>
+ 
+                                    <div className="form-actions card-btns">
+                                        <button className="save-btn edit-btn"><FaEdit /> Edit</button>
+                                        <button className="save-btn cancel-btn"><FaTimesCircle /> Cancel</button>
                                     </div>
                                 </div>
                             ))}
@@ -128,3 +126,4 @@ export default function UpdateandCancelAppointment() {
         </div>
     );
 }
+ 
