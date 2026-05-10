@@ -62,12 +62,6 @@ export default function CustomerLayout({ children }) {
             Centers
           </NavLink>
 
-          <NavLink
-            to="/customer/dashboard"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-          >
-            Dashboard
-          </NavLink>
 
           <NavLink
             to="/login"
