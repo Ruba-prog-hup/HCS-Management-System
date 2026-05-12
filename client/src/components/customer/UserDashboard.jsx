@@ -53,6 +53,12 @@ export default function UserDashboard() {
               <p><strong>Time:</strong> 12:00 PM</p>
               <p><strong>Price:</strong> 15 OMR</p>
               <p><strong>Status:</strong> Pending</p>
+
+              <div className="pending-btn-box">
+                <button className="approval-btn">
+                  Request Approval
+                </button>
+              </div>
             </div>
           </div>
         )}
