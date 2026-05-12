@@ -1210,3 +1210,68 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 .quick-questions button:hover {
   background: #5f6b5e;
 }
+
+
+/* ===== CONTACT WITH CENTER PAGE ===== */
+
+.contact-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-top: 55px;
+}
+
+.contact-content h1 {
+  font-size: 34px;
+  color: #3f4535;
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.contact-subtitle {
+  font-size: 18px;
+  color: #3f4535;
+  margin-bottom: 45px;
+}
+
+.contact-card {
+  width: 650px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.82);
+  border: 2px solid rgba(255,255,255,0.7);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 16px;
+  padding: 45px 60px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  text-align: left;
+}
+
+.contact-row p {
+  font-size: 22px;
+  color: #111;
+  margin: 0;
+}
+
+.contact-icon {
+  width: 70px;
+  height: 70px;
+  background: #d6f0de;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3f4535;
+  font-size: 30px;
+}
+
+.contact-line {
+  height: 1px;
+  background: rgba(63, 69, 53, 0.25);
+  margin: 28px 0;
+}
