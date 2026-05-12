@@ -70,6 +70,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
+
 // Login API
 app.post("/login", async (req, res) => {
   try {
@@ -77,26 +78,55 @@ app.post("/login", async (req, res) => {
 
     const user = await UserModel.findOne({ email });
 
+    // user login
     if (!user) {
-      return res.send({ message: "Invalid Credentials" });
+      return res.send({
+        message: "Invalid Email",
+      });
     }
 
+    // admin & center login
+    if (user.role === "admin" || user.role === "center") {
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.send({
+          message: "Email or Password Invalid",
+        });
+      }
+
+      return res.send({
+        message: "success",
+        user: user,
+      });
+    }
+
+    // user login
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.send({ message: "Invalid Credentials" });
+      return res.send({
+        message: "Invalid Password",
+      });
     }
 
-    res.send({ message: "success", user });
+    res.send({
+      message: "success",
+      user: user,
+    });
+
   } catch (error) {
-    res.send({ message: "Login Error: " + error });
+    res.send({
+      message: "Login Error: " + error.message,
+    });
   }
 });
 
 // Forgot Password API
 app.post("/forgot-password", async (req, res) => {
-console.log("Forgot password request received:", req.body);
-    try {
+  console.log("Forgot password request received:", req.body);
+  try {
     const { email } = req.body;
 
     const user = await UserModel.findOne({ email });
