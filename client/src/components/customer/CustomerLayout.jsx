@@ -88,10 +88,8 @@ export default function CustomerLayout({ children }) {
             <Link to="/customer/centers">Centers</Link>
             <Link to="/customer/dashboard">Dashboard</Link>
             <Link to="/customer/chatbot">Chatbot</Link>
-
-            <div className="contact-link" onClick={goToContact}>
-              Contact With Center
-            </div>
+            <Link to="/customer/contact">Contact With Centers</Link>
+            
 
             <div className="logout-link" onClick={logout}>
               Logout
