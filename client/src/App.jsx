@@ -31,7 +31,8 @@ import Payment from "./components/customer/Payment";
 import AppointmentsHistory from "./components/customer/AppointmentsHistory";
 import Review from "./components/customer/Review";
 import UserDashboard from "./components/customer/UserDashboard";
-//import Chatbot from "./components/customer/Chatbot";
+import Chatbot from "./components/customer/Chatbot";
+import Contact from "./components/customer/Contact";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/management" element={<AdminManagement />} />
-        
+
         <Route path="/center/dashboard" element={<CenterDashboard />} />
         <Route path="/center/management" element={<CenterManagement />} />
         <Route path="/center/center-profile" element={<CenterProfile />} />
@@ -62,10 +63,11 @@ function App() {
         <Route path="/customer/appointment-book" element={<AppointmentBook />} />
         <Route path="/customer/payment" element={<Payment />} />
         <Route path="/customer/history" element={<AppointmentsHistory />} />
-       <Route path="/customer/review" element={<Review />} />
-       <Route path="/customer/dashboard" element={<UserDashboard />} />
-       {/*<Route path="/customer/chatbot" element={<Chatbot />} />*/}
-         
+        <Route path="/customer/review" element={<Review />} />
+        <Route path="/customer/dashboard" element={<UserDashboard />} />
+        <Route path="/customer/chatbot" element={<Chatbot />} />
+        <Route path="/customer/contact" element={<Contact />} />
+
       </Routes>
     </BrowserRouter>
   );
