@@ -11,7 +11,7 @@ export default function UpdateUserProfile() {
           <h2>Update User Profile</h2>
           <form className="customer-form">
             <input type="text" placeholder="Username" />
-            <input type="email" placeholder="Email" />
+            
             <input type="tel" placeholder="Phone Number" />
             <input type="password" placeholder="Password" />
             <input type="password" placeholder="Confirm Password" />
