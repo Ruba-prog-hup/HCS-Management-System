@@ -38,7 +38,7 @@ const handleSubmit = async (data) => {
       } else if (result.user.role === "center") {
         navigate("/center/dashboard");
       } else {
-        navigate("/customer/dashboard");
+        navigate("/home");
       }
     }
   } catch (error) {
