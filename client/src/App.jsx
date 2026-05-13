@@ -10,6 +10,8 @@ import ResetPassword from "./components/auth/ResetPassword";
 // ADMIN
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminManagement from "./components/admin/AdminManagement";
+import RegisterCenter from "./components/admin/RegisterCenter";
+import AdminMessages from "./components/admin/AdminMessages";
 
 // CENTER
 import CenterDashboard from "./components/center/CenterDashboard";
@@ -47,6 +49,8 @@ function App() {
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/management" element={<AdminManagement />} />
+        <Route path="/admin/register-center" element={<RegisterCenter />} />
+        <Route path="/admin/messages" element={<AdminMessages />} />
 
         <Route path="/center/dashboard" element={<CenterDashboard />} />
         <Route path="/center/management" element={<CenterManagement />} />
