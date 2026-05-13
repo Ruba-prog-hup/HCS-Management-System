@@ -9,20 +9,39 @@ export default function AdminMessages() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [replyText, setReplyText] = useState("");
 
-  const users = [
-    { id: 1, name: "Ahmed Al-Balushi", lastMsg: "Hello, I have a question about my appointment." },
-    { id: 2, name: "Sara Al-Riyami", lastMsg: "Can I change my center?" },
-    { id: 3, name: "Mazin Al-Harthy", lastMsg: "Payment was successful, thank you." }
-  ];
+  const [chatData, setChatData] = useState({
+    1: { 
+      name: "Ahmed Al-Balushi", 
+      messages: [{ sender: "user", text: "Hello, I have a question about my appointment." }] 
+    },
+    2: { 
+      name: "Sara Al-Riyami", 
+      messages: [{ sender: "user", text: "Can I change my center?" }] 
+    },
+    3: { 
+      name: "Mazin Al-Harthy", 
+      messages: [{ sender: "user", text: "Payment was successful, thank you." }] 
+    }
+  });
 
   const handleSend = () => {
-    if (replyText.trim() && selectedUser) {
+    if (replyText.trim() && selectedUserId) {
+      const newMessage = { sender: "admin", text: replyText };
+      setChatData({
+        ...chatData,
+        [selectedUserId]: {
+          ...chatData[selectedUserId],
+          messages: [...chatData[selectedUserId].messages, newMessage]
+        }
+      });
       setReplyText("");
     }
   };
+
+  const selectedUser = chatData[selectedUserId];
 
   return (
     <div className={`admin-page ${darkMode ? "dark" : ""}`}>
@@ -67,12 +86,27 @@ export default function AdminMessages() {
             <div className="dashboard-record-box" style={{ maxWidth: '1000px', display: 'flex', gap: '20px', height: '60vh' }}>
               
               <div className="dashboard-record-card" style={{ flex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                {selectedUser ? (
+                {selectedUserId ? (
                   <>
-                    <div>
-                      <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '10px' }}>Chat with {selectedUser.name}</h3>
-                      <div style={{ padding: '15px', background: '#f9f9f9', borderRadius: '8px', marginTop: '10px' }}>
-                        <p><strong>{selectedUser.name}:</strong> {selectedUser.lastMsg}</p>
+                    <div style={{ flex: 1, overflowY: 'auto', paddingRight: '10px' }}>
+                      <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '10px', marginBottom: '15px' }}>Chat with {selectedUser.name}</h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {selectedUser.messages.map((m, index) => (
+                          <div 
+                            key={index} 
+                            style={{ 
+                              alignSelf: m.sender === "admin" ? 'flex-end' : 'flex-start',
+                              background: m.sender === "admin" ? '#76a37b' : '#f0f0f0',
+                              color: m.sender === "admin" ? 'white' : 'black',
+                              padding: '10px 15px',
+                              borderRadius: '15px',
+                              maxWidth: '70%',
+                              fontSize: '14px'
+                            }}
+                          >
+                            {m.text}
+                          </div>
+                        ))}
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
@@ -82,6 +116,7 @@ export default function AdminMessages() {
                         placeholder="Type your reply..." 
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                       />
                       <button className="remove-btn" style={{ background: '#76a37b', width: '60px' }} onClick={handleSend}>
                         <FaPaperPlane />
@@ -98,21 +133,23 @@ export default function AdminMessages() {
               <div className="dashboard-record-card" style={{ flex: 1, overflowY: 'auto' }}>
                 <h3 style={{ marginBottom: '15px' }}>Users List</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {users.map(user => (
+                  {Object.keys(chatData).map(id => (
                     <div 
-                      key={user.id} 
-                      onClick={() => setSelectedUser(user)}
+                      key={id} 
+                      onClick={() => setSelectedUserId(id)}
                       style={{ 
                         padding: '10px', 
                         borderRadius: '8px', 
                         cursor: 'pointer',
-                        background: selectedUser?.id === user.id ? '#76a37b' : '#f5f5f5',
-                        color: selectedUser?.id === user.id ? 'white' : 'inherit',
+                        background: selectedUserId === id ? '#76a37b' : '#f5f5f5',
+                        color: selectedUserId === id ? 'white' : 'inherit',
                         transition: '0.3s'
                       }}
                     >
-                      <strong>{user.name}</strong>
-                      <p style={{ fontSize: '12px', margin: '5px 0 0', opacity: 0.8 }}>{user.lastMsg.substring(0, 20)}...</p>
+                      <strong>{chatData[id].name}</strong>
+                      <p style={{ fontSize: '12px', margin: '5px 0 0', opacity: 0.8 }}>
+                        {chatData[id].messages[chatData[id].messages.length - 1].text.substring(0, 20)}...
+                      </p>
                     </div>
                   ))}
                 </div>
