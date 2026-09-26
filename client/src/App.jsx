@@ -34,7 +34,7 @@ import AppointmentsHistory from "./components/customer/AppointmentsHistory";
 import Review from "./components/customer/Review";
 import UserDashboard from "./components/customer/UserDashboard";
 import Chatbot from "./components/customer/Chatbot";
-import Contact from "./components/customer/Contact";
+import Contact from "./components/customer/Cnotact.jsx";
 
 function App() {
   return (
