@@ -10,6 +10,49 @@ export default function AdminManagement() {
   const [open, setOpen] = useState(true);
   const [showAdminMenu, setShowAdminMenu] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [centerName, setCenterName] = useState("");
+
+
+  const handleRemoveCenter = async () => {
+    if (!centerName.trim()) {
+      alert("Please enter center name");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      `Are you sure you want to remove ${centerName}?`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:3002/remove-center", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          centerName: centerName.trim(),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result.message || "Failed to remove center");
+        return;
+      }
+
+      alert("Center removed successfully!");
+      setCenterName("");
+    } catch (error) {
+      alert("Cannot connect to server");
+    }
+  };
+
 
   return (
     <div className={`admin-page ${darkMode ? "dark" : ""}`}>
@@ -44,6 +87,12 @@ export default function AdminManagement() {
           <div className={`sidebar ${open ? "open" : ""}`}>
             <div className="sidebar-content">
               <div
+                className="sidebar-item"
+                onClick={() => navigate("/admin/dashboard")}
+              >
+                Dashboard
+              </div>
+              <div
                 className="sidebar-item active"
                 onClick={() => setShowAdminMenu(!showAdminMenu)}
                 style={{ cursor: "pointer" }}
@@ -52,30 +101,29 @@ export default function AdminManagement() {
               </div>
 
               {showAdminMenu && (
-  <div style={{ paddingLeft: "25px" }}>
-                <div
-                  className="sidebar-item"
-                  onClick={() => navigate("/admin/management")}
-                >
-                  Remove Center
-                </div>
+                <div style={{ paddingLeft: "25px" }}>
+                  <div
+                    className="sidebar-item"
+                    onClick={() => navigate("/admin/management")}
+                  >
+                    Remove Center
+                  </div>
 
-                <div
-                  className="sidebar-item"
-                  onClick={() => navigate("/admin/register-center")}
-                >
-                  Register Center
-                </div>
+                  <div
+                    className="sidebar-item"
+                    onClick={() => navigate("/admin/register-center")}
+                  >
+                    Register Center
+                  </div>
 
-                <div
-                  className="sidebar-item"
-                  onClick={() => navigate("/admin/messages")}
-                >
-                  Messages
+                  <div
+                    className="sidebar-item"
+                    onClick={() => navigate("/admin/messages")}
+                  >
+                    Messages
+                  </div>
                 </div>
-              </div>
               )}
-              <div className="sidebar-item" onClick={() => navigate("/admin/dashboard")}>Dashboard</div>
             </div>
             <div className="sidebar-logout" onClick={() => navigate("/")}>
               <IoLogOutOutline style={{ marginRight: '8px' }} /> Logout
@@ -86,9 +134,19 @@ export default function AdminManagement() {
             <img src="/logo.png" alt="logo" className="logo" />
             <h2 className="title">Admin Management</h2>
             <div className="management-card">
-              <input type="text" placeholder="Enter Center Name" className="input" />
-              <button className="remove-btn">
-                <FaTrashAlt style={{ marginRight: '8px' }} /> Remove Center
+              <input
+                type="text"
+                placeholder="Enter Center Name"
+                className="input"
+                value={centerName}
+                onChange={(e) => setCenterName(e.target.value)}
+              />
+              <button
+                className="remove-btn"
+                onClick={handleRemoveCenter}
+              >
+                <FaTrashAlt style={{ marginRight: '8px' }} />
+                Remove Center
               </button>
             </div>
           </div>

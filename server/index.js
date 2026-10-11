@@ -187,6 +187,47 @@ app.post("/register-center", verifyAdmin, async (req, res) => {
 });
 
 
+ // Remove Center API - Admin Only
+app.delete("/remove-center", verifyAdmin, async (req, res) => {
+  try {
+    const { centerName } = req.body;
+
+    if (!centerName || !centerName.trim()) {
+      return res.status(400).json({
+        message: "Please enter center name",
+      });
+    }
+
+    const center = await CenterModel.findOne({
+      centerName: centerName.trim(),
+    });
+
+    if (!center) {
+      return res.status(404).json({
+        message: "Center not found",
+      });
+    }
+
+    await UserModel.deleteMany({
+      centerId: center._id,
+      role: "center",
+    });
+
+    await CenterModel.findByIdAndDelete(center._id);
+
+    return res.status(200).json({
+      message: "Center removed successfully",
+    });
+  } catch (error) {
+    console.error("Remove Center Error:", error);
+    return res.status(500).json({
+      message: "Failed to remove center",
+    });
+  }
+});
+
+
+
 // Login API
 app.post("/login", async (req, res) => {
   try {
