@@ -84,20 +84,20 @@ export default function RegisterCenter() {
             <span className="menu-text">Menu</span>
           </div>
           <div className="topbar-center">
-  <span
-    className="nav-item"
-    onClick={() => navigate("/admin/dashboard")}
-  >
-    Dashboard
-  </span>
+            <span
+              className="nav-item"
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              Dashboard
+            </span>
 
-  <span
-    className="nav-item"
-    onClick={() => navigate("/admin/management")}
-  >
-    Admin Management
-  </span>
-</div>
+            <span
+              className="nav-item"
+              onClick={() => navigate("/admin/management")}
+            >
+              Admin Management
+            </span>
+          </div>
           <div className="topbar-right">
             <button className="icon-btn" onClick={() => navigate("/admin/messages")}><FaEnvelope /></button>
             <button className="icon-btn" onClick={() => navigate("/admin/dashboard")}><FaHome /></button>
