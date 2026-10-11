@@ -8,20 +8,29 @@ import { useNavigate } from "react-router-dom";
 export default function AdminManagement() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
+  const [showAdminMenu, setShowAdminMenu] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className={`admin-page ${darkMode ? "dark" : ""}`}>
       <div className="overlay">
-        
+
         <div className="topbar">
           <div className="topbar-left">
             <button className="icon-btn" onClick={() => setOpen(!open)}><FaBars /></button>
             <span className="menu-text">Menu</span>
           </div>
           <div className="topbar-center">
-            <span className="nav-item">Admin Management</span>
-            <span className="nav-item" onClick={() => navigate("/admin/dashboard")}>Dashboard</span>
+            <span className="nav-item active">
+              Admin Management
+            </span>
+
+            <span
+              className="nav-item"
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              Dashboard
+            </span>
           </div>
           <div className="topbar-right">
             <button className="icon-btn" onClick={() => setDarkMode(!darkMode)}>
@@ -34,11 +43,42 @@ export default function AdminManagement() {
         <div className="layout">
           <div className={`sidebar ${open ? "open" : ""}`}>
             <div className="sidebar-content">
-              <div className="sidebar-item active">Admin Management</div>
+              <div
+                className="sidebar-item active"
+                onClick={() => setShowAdminMenu(!showAdminMenu)}
+                style={{ cursor: "pointer" }}
+              >
+                Admin Management
+              </div>
+
+              {showAdminMenu && (
+  <div style={{ paddingLeft: "25px" }}>
+                <div
+                  className="sidebar-item"
+                  onClick={() => navigate("/admin/management")}
+                >
+                  Remove Center
+                </div>
+
+                <div
+                  className="sidebar-item"
+                  onClick={() => navigate("/admin/register-center")}
+                >
+                  Register Center
+                </div>
+
+                <div
+                  className="sidebar-item"
+                  onClick={() => navigate("/admin/messages")}
+                >
+                  Messages
+                </div>
+              </div>
+              )}
               <div className="sidebar-item" onClick={() => navigate("/admin/dashboard")}>Dashboard</div>
             </div>
             <div className="sidebar-logout" onClick={() => navigate("/")}>
-              <IoLogOutOutline style={{marginRight: '8px'}} /> Logout
+              <IoLogOutOutline style={{ marginRight: '8px' }} /> Logout
             </div>
           </div>
 
@@ -48,7 +88,7 @@ export default function AdminManagement() {
             <div className="management-card">
               <input type="text" placeholder="Enter Center Name" className="input" />
               <button className="remove-btn">
-                <FaTrashAlt style={{marginRight: '8px'}} /> Remove Center
+                <FaTrashAlt style={{ marginRight: '8px' }} /> Remove Center
               </button>
             </div>
           </div>

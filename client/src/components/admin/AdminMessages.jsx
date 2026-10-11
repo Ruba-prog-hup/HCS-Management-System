@@ -13,17 +13,17 @@ export default function AdminMessages() {
   const [replyText, setReplyText] = useState("");
 
   const [chatData, setChatData] = useState({
-    1: { 
-      name: "Ahmed Al-Balushi", 
-      messages: [{ sender: "user", text: "Hello, I have a question about my appointment." }] 
+    1: {
+      name: "Ahmed Al-Balushi",
+      messages: [{ sender: "user", text: "Hello, I have a question about my appointment." }]
     },
-    2: { 
-      name: "Sara Al-Riyami", 
-      messages: [{ sender: "user", text: "Can I change my center?" }] 
+    2: {
+      name: "Sara Al-Riyami",
+      messages: [{ sender: "user", text: "Can I change my center?" }]
     },
-    3: { 
-      name: "Mazin Al-Harthy", 
-      messages: [{ sender: "user", text: "Payment was successful, thank you." }] 
+    3: {
+      name: "Mazin Al-Harthy",
+      messages: [{ sender: "user", text: "Payment was successful, thank you." }]
     }
   });
 
@@ -52,10 +52,19 @@ export default function AdminMessages() {
             <span className="menu-text">Menu</span>
           </div>
           <div className="topbar-center">
-            <span className="nav-item" onClick={() => navigate("/admin/dashboard")}>Dashboard</span>
-            <span className="nav-item" onClick={() => navigate("/admin/management")}>Admin Management</span>
-            <span className="nav-item" onClick={() => navigate("/admin/register-center")}>Register Center</span>
-            <span className="nav-item active" onClick={() => navigate("/admin/messages")}>Messages</span>
+            <span
+              className="nav-item"
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              Dashboard
+            </span>
+
+            <span
+              className="nav-item"
+              onClick={() => navigate("/admin/management")}
+            >
+              Admin Management
+            </span>
           </div>
           <div className="topbar-right">
             <button className="icon-btn" onClick={() => navigate("/admin/messages")}><FaEnvelope color="#76a37b" /></button>
@@ -71,20 +80,26 @@ export default function AdminMessages() {
           <div className={`sidebar ${open ? "open" : ""}`}>
             <div className="sidebar-content">
               <div className="sidebar-item" onClick={() => navigate("/admin/dashboard")}>Dashboard</div>
-              <div className="sidebar-item" onClick={() => navigate("/admin/management")}>Admin Management</div>
+              <div
+                className="sidebar-item"
+                onClick={() => navigate("/admin/management")}
+                style={{ cursor: "pointer" }}
+              >
+                Admin Management
+              </div>
               <div className="sidebar-item" onClick={() => navigate("/admin/register-center")}>Register Center</div>
               <div className="sidebar-item active" onClick={() => navigate("/admin/messages")}>Messages</div>
             </div>
             <div className="sidebar-logout" onClick={() => navigate("/")}>
-              <IoLogOutOutline style={{marginRight: '8px'}} /> Logout
+              <IoLogOutOutline style={{ marginRight: '8px' }} /> Logout
             </div>
           </div>
 
           <div className="content-wrapper">
             <h2 className="title">User Messages</h2>
-            
+
             <div className="dashboard-record-box" style={{ maxWidth: '1000px', display: 'flex', gap: '20px', height: '60vh' }}>
-              
+
               <div className="dashboard-record-card" style={{ flex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 {selectedUserId ? (
                   <>
@@ -92,9 +107,9 @@ export default function AdminMessages() {
                       <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '10px', marginBottom: '15px' }}>Chat with {selectedUser.name}</h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         {selectedUser.messages.map((m, index) => (
-                          <div 
-                            key={index} 
-                            style={{ 
+                          <div
+                            key={index}
+                            style={{
                               alignSelf: m.sender === "admin" ? 'flex-end' : 'flex-start',
                               background: m.sender === "admin" ? '#76a37b' : '#f0f0f0',
                               color: m.sender === "admin" ? 'white' : 'black',
@@ -110,10 +125,10 @@ export default function AdminMessages() {
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                      <input 
-                        type="text" 
-                        className="input" 
-                        placeholder="Type your reply..." 
+                      <input
+                        type="text"
+                        className="input"
+                        placeholder="Type your reply..."
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSend()}
@@ -134,12 +149,12 @@ export default function AdminMessages() {
                 <h3 style={{ marginBottom: '15px' }}>Users List</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {Object.keys(chatData).map(id => (
-                    <div 
-                      key={id} 
+                    <div
+                      key={id}
                       onClick={() => setSelectedUserId(id)}
-                      style={{ 
-                        padding: '10px', 
-                        borderRadius: '8px', 
+                      style={{
+                        padding: '10px',
+                        borderRadius: '8px',
                         cursor: 'pointer',
                         background: selectedUserId === id ? '#76a37b' : '#f5f5f5',
                         color: selectedUserId === id ? 'white' : 'inherit',

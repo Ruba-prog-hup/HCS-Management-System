@@ -16,35 +16,42 @@ const Login = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(LoginValidation) });
 
-const handleSubmit = async (data) => {
-  try {
-    const res = await fetch("http://localhost:3002/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  const handleSubmit = async (data) => {
+    try {
+      const res = await fetch("http://localhost:3002/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const result = await res.json();
+      const result = await res.json();
+      console.log("LOGIN RESULT:", result);
 
-    setMessage(result.message);
+      setMessage(result.message);
 
-    if (result.message === "success") {
-      localStorage.setItem("user", JSON.stringify(result.user));
+      if (result.message === "success") {
+        localStorage.setItem("user", JSON.stringify(result.user));
 
-      if (result.user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else if (result.user.role === "center") {
-        navigate("/center/dashboard");
-      } else {
-        navigate("/home");
+        if (result.token) {
+          localStorage.setItem("token", result.token);
+        } else {
+          localStorage.removeItem("token");
+        }
+
+        if (result.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (result.user.role === "center") {
+          navigate("/center/dashboard");
+        } else {
+          navigate("/home");
+        }
       }
+    } catch (error) {
+      setMessage("Server Error");
     }
-  } catch (error) {
-    setMessage("Server Error");
-  }
-};
+  };
 
   return (
     <div className="login-page">

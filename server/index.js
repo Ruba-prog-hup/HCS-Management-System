@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 import dotenv from "dotenv";
 import dns from "dns";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -29,6 +30,10 @@ const UserSchema = new mongoose.Schema({
   username: String,
   email: String,
   phone: String,
+  centerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CENTER"
+  },
   password: String,
 
   role: {
@@ -41,6 +46,15 @@ const UserSchema = new mongoose.Schema({
 });
 
 const UserModel = mongoose.model("USER", UserSchema, "USER");
+
+const CenterSchema = new mongoose.Schema({
+  centerName: String,
+  image: String,
+  isActive: String,
+  location: String,
+});
+
+const CenterModel = mongoose.model("CENTER", CenterSchema, "CENTER");
 
 // Register API
 app.post("/register", async (req, res) => {
@@ -71,12 +85,118 @@ app.post("/register", async (req, res) => {
 });
 
 
+// Register Center API - Admin Only
+const verifyAdmin = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Access denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decoded.role !== "admin") {
+      return res.status(403).json({ message: "Admin only" });
+    }
+
+    UserModel.findById(decoded.id)
+      .then((admin) => {
+        if (!admin || admin.role !== "admin") {
+          return res.status(403).json({
+            message: "Admin only",
+          });
+        }
+
+        req.adminId = admin._id;
+        next();
+      })
+      .catch(() => {
+        return res.status(500).json({
+          message: "Authorization error",
+        });
+      });
+
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
+
+// Register New Center API
+app.post("/register-center", verifyAdmin, async (req, res) => {
+  try {
+    const { name, email, phone, password } = req.body;
+
+    if (!name || !email || !phone || !password) {
+      return res.status(400).json({
+        message: "Please fill in all fields",
+      });
+    }
+
+    if (!email.endsWith(".om")) {
+      return res.status(400).json({
+        message: "Email must end with .om",
+      });
+    }
+
+    const existingUser = await UserModel.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        message: "Email already exists",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newCenterUser = new UserModel({
+      username: name,
+      email,
+      phone,
+      password: hashedPassword,
+      role: "center",
+    });
+
+    const newCenter = new CenterModel({
+      centerName: name,
+      image: "",
+      isActive: "true",
+      location: "",
+    });
+
+    await newCenter.save();
+    newCenterUser.centerId = newCenter._id;
+
+    try {
+      await newCenterUser.save();
+    } catch (error) {
+      await CenterModel.findByIdAndDelete(newCenter._id);
+      throw error;
+    }
+
+    return res.status(201).json({
+      message: "Center account registered successfully",
+    });
+  } catch (error) {
+    console.error("Register Center Error:", error);
+    return res.status(500).json({
+      message: "Center registration failed",
+    });
+  }
+});
+
+
 // Login API
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("LOGIN EMAIL:", email);
 
     const user = await UserModel.findOne({ email });
+    console.log("FOUND USER:", user);
+    console.log("DATABASE:", mongoose.connection.name);
+    console.log("USERS COUNT:", await UserModel.countDocuments());
 
     // user login
     if (!user) {
@@ -96,9 +216,22 @@ app.post("/login", async (req, res) => {
         });
       }
 
+      const token = jwt.sign(
+        {
+          id: user._id,
+          role: user.role,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "2h" }
+      );
+
+      const safeUser = user.toObject();
+      delete safeUser.password;
+
       return res.send({
         message: "success",
-        user: user,
+        user: safeUser,
+        token: token,
       });
     }
 
@@ -111,9 +244,12 @@ app.post("/login", async (req, res) => {
       });
     }
 
+    const safeUser = user.toObject();
+    delete safeUser.password;
+
     res.send({
       message: "success",
-      user: user,
+      user: safeUser,
     });
 
   } catch (error) {
