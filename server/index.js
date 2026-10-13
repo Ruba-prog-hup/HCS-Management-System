@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 //added to make database work
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
+//dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const conStr =
   "mongodb+srv://admin:admin123@hct-cluster.czj4w6k.mongodb.net/HCSDB?retryWrites=true&w=majority&appName=HCT-Cluster";
@@ -382,6 +382,22 @@ app.post("/reset-password", async (req, res) => {
 
   } catch (error) {
     res.send({ message: "Reset Error: " + error.message });
+  }
+});
+
+// Get All Centers API - Admin Only
+app.get("/admin/centers", verifyAdmin, async (req, res) => {
+  try {
+    const centers = await CenterModel.find({})
+      .select("_id centerName image isActive location");
+
+    return res.status(200).json(centers);
+  } catch (error) {
+    console.error("Get Centers Error:", error);
+
+    return res.status(500).json({
+      message: "Failed to fetch centers",
+    });
   }
 });
 
