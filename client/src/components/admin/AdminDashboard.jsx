@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Admin.css";
 import { MdOutlineCalendarMonth, MdLanguage } from "react-icons/md";
 import { FaUsers, FaPlus, FaMoon, FaSun, FaBars } from "react-icons/fa";
@@ -9,17 +9,33 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [activeCard, setActiveCard] = useState(""); 
+  const [activeCard, setActiveCard] = useState("");
 
- 
-  const centersData = [
-    { id: 1, name: "Abna Freish Center" },
-    { id: 2, name: "Muscat Hijama Center" },
-    { id: 3, name: "Al Manar Hijama Center" },
-    { id: 4, name: "AlYahyaei Hijama Center" },
-    { id: 5, name: "BMC Center" }
-  ];
+  const [centersData, setCentersData] = useState([]);
+  useEffect(() => {
+    const fetchCenters = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
+        const response = await fetch("http://localhost:3002/admin/centers", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch centers");
+        }
+
+        const data = await response.json();
+        setCentersData(data);
+      } catch (error) {
+        console.error("Fetch Centers Error:", error);
+      }
+    };
+
+    fetchCenters();
+  }, []);
 
   const usersData = [
     { id: 1, name: "Ahmed Al-Balushi", email: "ahmed.balushi@example.com" },
@@ -43,7 +59,7 @@ export default function AdminDashboard() {
             <button className="icon-btn" onClick={() => setOpen(!open)}><FaBars /></button>
             <span className="menu-text">Menu</span>
           </div>
-          <div className="topbar-center">            
+          <div className="topbar-center">
             <span className="nav-item" onClick={() => navigate("/admin/management")}>Admin Management</span>
             <span className="nav-item active">Dashboard</span>
           </div>
@@ -63,18 +79,18 @@ export default function AdminDashboard() {
               <div className="sidebar-item active">Dashboard</div>
             </div>
             <div className="sidebar-logout" onClick={() => navigate("/")}>
-              <IoLogOutOutline style={{marginRight: '8px'}} /> Logout
+              <IoLogOutOutline style={{ marginRight: '8px' }} /> Logout
             </div>
           </div>
 
           {/* Main Content */}
           <div className="content-wrapper">
             <h2 className="title">Admin Dashboard</h2>
-            
+
             <div className="cards-container">
-            
-              <div 
-                className={`card clickable-card ${activeCard === "centers" ? "active-card" : ""}`} 
+
+              <div
+                className={`card clickable-card ${activeCard === "centers" ? "active-card" : ""}`}
                 onClick={() => setActiveCard(activeCard === "centers" ? "" : "centers")}
               >
                 <MdOutlineCalendarMonth className="card-icon" />
@@ -82,8 +98,8 @@ export default function AdminDashboard() {
                 <h3>{centersData.length}</h3>
               </div>
 
-              <div 
-                className={`card clickable-card ${activeCard === "users" ? "active-card" : ""}`} 
+              <div
+                className={`card clickable-card ${activeCard === "users" ? "active-card" : ""}`}
                 onClick={() => setActiveCard(activeCard === "users" ? "" : "users")}
               >
                 <FaUsers className="card-icon" />
@@ -91,9 +107,9 @@ export default function AdminDashboard() {
                 <h3>{usersData.length}</h3>
               </div>
 
-             
-              <div 
-                className={`card clickable-card ${activeCard === "bookings" ? "active-card" : ""}`} 
+
+              <div
+                className={`card clickable-card ${activeCard === "bookings" ? "active-card" : ""}`}
                 onClick={() => setActiveCard(activeCard === "bookings" ? "" : "bookings")}
               >
                 <FaPlus className="card-icon" />
@@ -102,21 +118,28 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            
+
             {activeCard === "centers" && (
               <div className="dashboard-record-box">
                 <h2>Centers Summary</h2>
                 <div className="records-grid">
                   {centersData.map((center) => (
-                    <div key={center.id} className="dashboard-record-card">
-                      <p><strong>Center Name:</strong> {center.name}</p>
+                    <div
+                      key={center._id}
+                      className="dashboard-record-card"
+                      onClick={() => navigate(`/customer/center-details/${center._id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <p>
+                        <strong>Center Name:</strong> {center.centerName || "Unnamed Center"}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-           
+
             {activeCard === "users" && (
               <div className="dashboard-record-box">
                 <h2>Users Summary</h2>
@@ -131,7 +154,7 @@ export default function AdminDashboard() {
               </div>
             )}
 
-          
+
             {activeCard === "bookings" && (
               <div className="dashboard-record-box">
                 <h2>Bookings Summary</h2>

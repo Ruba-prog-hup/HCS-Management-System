@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from "react-icons/bs";
 import { RiDeleteBin2Fill } from "react-icons/ri";
@@ -13,6 +13,9 @@ import F3 from "../../assets/F3.webp";
 import F4 from "../../assets/F4.jpg";
 
 export default function CenterDetails() {
+  const { centerId } = useParams();
+
+  console.log("Selected Center ID:", centerId);
   const treatments = [
     { name: "Hijama", price: "10 OMR", image: F1 },
     { name: "Oil Massage", price: "15 OMR", image: F2 },

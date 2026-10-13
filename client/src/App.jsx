@@ -64,6 +64,7 @@ function App() {
         <Route path="/customer/update-profile" element={<UpdateUserProfile />} />
         <Route path="/customer/centers" element={<ViewCenters />} />
         <Route path="/customer/center-details" element={<ViewCenterDetails />} />
+        <Route path="/customer/center-details/:centerId" element={<ViewCenterDetails />} />
         <Route path="/customer/appointment-book" element={<AppointmentBook />} />
         <Route path="/customer/payment" element={<Payment />} />
         <Route path="/customer/history" element={<AppointmentsHistory />} />
